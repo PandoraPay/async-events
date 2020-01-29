@@ -1,0 +1,20 @@
+{
+  "name": "async-events",
+  "version": "0.0.1",
+  "description": "async events",
+  "author": "Budisteanu Ionut Alexandru",
+  "license": "MIT",
+  "contributors": [
+    "Budisteanu Ionut Alexandru (http://budisteanu.net)"
+  ],
+  "keywords": [
+    "webpack",
+    "node.js",
+    "browser",
+    "async events",
+  ],
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  }
+}
