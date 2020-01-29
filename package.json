@@ -11,7 +11,7 @@
     "webpack",
     "node.js",
     "browser",
-    "async events",
+    "async events"
   ],
   "main": "./src/index.js",
   "scripts": {
