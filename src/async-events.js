@@ -29,6 +29,8 @@ module.exports = class AsyncEvents {
 
     on(name, cb){
 
+        if ( !cb ) throw "callback is not defined";
+
         if (!this._data[name] )
             this._data[name] = {
                 count: 0,
@@ -43,6 +45,8 @@ module.exports = class AsyncEvents {
     }
 
     once(name, cb){
+
+        if ( !cb ) throw "callback is not defined";
 
         if (!this._data[name] )
             this._data[name] = {
