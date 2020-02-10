@@ -10,26 +10,28 @@ module.exports = class AsyncEvents {
 
     async emit (name, data){
 
-        if (this._data[name]){
+        if (!this._data[name]) return;
 
-            const calls = this._data[name];
+        const calls = this._data[name];
 
-            for (const key in calls){
+        for (const key in calls){
 
-                if (key === "count") continue;
+            if (key === "count") continue;
+
+            if (typeof calls[key].cb === "function")
                 await calls[key].cb(data);
+            else
+                console.error("calls[key].cb is not a function", name, data, calls[key].cb);
 
-                if (calls[key].once)
-                    delete calls[key];
-            }
-
+            if (calls[key].once)
+                delete calls[key];
         }
 
     }
 
     on(name, cb){
 
-        if ( !cb ) throw "callback is not defined";
+        if ( !cb || typeof cb !== "function" ) throw "callback is not defined";
 
         if (!this._data[name] )
             this._data[name] = {
@@ -46,7 +48,7 @@ module.exports = class AsyncEvents {
 
     once(name, cb){
 
-        if ( !cb ) throw "callback is not defined";
+        if ( !cb || typeof cb !== "function" ) throw "callback is not defined";
 
         if (!this._data[name] )
             this._data[name] = {
