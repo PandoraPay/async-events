@@ -14,12 +14,16 @@ module.exports = class AsyncEvents {
 
         const calls = this._data[name];
 
+        const out = [];
+
         for (const key in calls){
 
             if (key === "count") continue;
 
-            if (typeof calls[key].cb === "function")
-                await calls[key].cb(data);
+            if (typeof calls[key].cb === "function") {
+                const result = await calls[key].cb(data);
+                out.push(result);
+            }
             else
                 console.error("calls[key].cb is not a function", name, data, calls[key].cb);
 
@@ -27,6 +31,9 @@ module.exports = class AsyncEvents {
                 delete calls[key];
         }
 
+        if (out.length === 0) return undefined;
+        if (out.length === 1) return out[1];
+        return out;
     }
 
     on(name, cb){
