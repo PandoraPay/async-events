@@ -2,7 +2,7 @@ module.exports = class AsyncEvents {
 
     constructor(){
 
-        this._data = {
+        this.__data = {
 
         };
 
@@ -10,9 +10,9 @@ module.exports = class AsyncEvents {
 
     async emit (name, data){
 
-        if (!this._data[name]) return;
+        if (!this.__data[name]) return;
 
-        const calls = this._data[name];
+        const calls = this.__data[name];
 
         const out = [];
 
@@ -32,7 +32,7 @@ module.exports = class AsyncEvents {
         }
 
         if (out.length === 0) return undefined;
-        if (out.length === 1) return out[1];
+        if (out.length === 1) return out[0];
         return out;
     }
 
@@ -40,35 +40,35 @@ module.exports = class AsyncEvents {
 
         if ( !cb || typeof cb !== "function" ) throw "callback is not defined";
 
-        if (!this._data[name] )
-            this._data[name] = {
+        if (!this.__data[name] )
+            this.__data[name] = {
                 count: 0,
             };
 
-        const count = this._data[name].count ++ ;
-        this._data[name][count] = {
+        const count = this.__data[name].count ++ ;
+        this.__data[name][count] = {
             cb: cb,
         };
 
-        return () => delete this._data[name][count]
+        return () => delete this.__data[name][count]
     }
 
     once(name, cb){
 
         if ( !cb || typeof cb !== "function" ) throw "callback is not defined";
 
-        if (!this._data[name] )
-            this._data[name] = {
+        if (!this.__data[name] )
+            this.__data[name] = {
                 count: 0,
             };
 
-        const count = this._data[name].count ++ ;
-        this._data[name][count] = {
+        const count = this.__data[name].count ++ ;
+        this.__data[name][count] = {
             cb: cb,
             once: true,
         };
 
-        return () => delete this._data[name][count]
+        return () => delete this.__data[name][count]
     }
 
 }
